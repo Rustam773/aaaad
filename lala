@@ -210,247 +210,283 @@ else
 end
 -----------------------------------------------------------------------------------------------
 NEZERI
-# Rəqəmsal Sistemlər — Midterm Sualları və Cavabları
+1. Basics of Digital Systems
+Digital systems are systems that receive, process, and send information in digital form. In these systems, information is mainly shown using the binary number system, which means 0s and 1s. Computers, phones, and calculators are digital systems. Digital systems are fast and accurate.
 
-*Hər sual: ingiliscə qısa cavab + azərbaycanca tərcümə*
+2. Digital systems based on computer engineering complexes
+A “complex” means hardware and software working together.
+•	Hardware: processor (CPU), memory, input and output devices.
+•	Software: programs that tell the hardware what to do.
+•	Examples: a computer, a microcontroller, a control system in a factory.
 
-## 1. Basics of Digital Systems
+3. Digital system and its fundamental principles of operation
+A digital system works in three main steps: Input → Processing → Output.
+Input: Receives data
+Processing: Uses logic gates (AND, OR, NOT)
+Output: Shows the result
 
-Digital systems take real-world signals, chop them into samples, then round each sample to a fixed level — that's sampling and quantization. Logic circuits (gates, flip-flops, memory) then process the 1s and 0s. *AZ:* Rəqəmsal sistemlər real siqnalları nümunələrə bölür, sonra hər nümunəni sabit səviyyəyə yuvarlaqlaşdırır — bu, nümunəgötürmə və kvantlamadır. Sonra məntiq dövrələri (qapılar, flip-floplar, yaddaş) 1 və 0-ları emal edir.
+4. Signal reconstruction from discrete samples
+A discrete signal is a group of points. Reconstruction means making a smooth, continuous signal from these points.
+Nyquist rule:  
+If it is lower, we get aliasing
 
-## 2. Digital systems based on computer engineering complexes
+5. Data conversion and quantization
+Data conversion changes a signal from analog to digital, or from digital to analog.
+Quantization means dividing a continuous analog signal into fixed digital steps or levels.
 
-These systems combine an ADC/DAC pair, a microprocessor or microcontroller, memory, and input/output ports — all run by software — to process signals and control hardware in real time. *AZ:* Bu sistemlər bir ADC/DAC cütü, mikroprosessor və ya mikrokontroller, yaddaş və giriş-çıxış portlarını proqram təminatı ilə birləşdirir — real vaxtda siqnalları emal edib avadanlığı idarə edir.
 
-## 3. Digital system and its fundamental principles of operation
+6. Sample-and-hold circuits
+A sample-and-hold circuit is an electronic circuit. This circuit takes the signal value at one moment (sample) and keeps it constant for a short time (hold).
 
-A digital system takes in a continuous signal, samples and rounds it, crunches the numbers (often using the Z-transform), then outputs a result. Four rules keep it well-behaved: linear, time-invariant, causal, stable. *AZ:* Rəqəmsal sistem fasiləsiz siqnalı qəbul edir, onu nümunələyir və yuvarlaqlaşdırır, rəqəmlər üzərində (çox vaxt Z-çevrilmə ilə) hesablama aparır, sonra nəticə verir. Dörd qayda onu "yaxşı davranan" edir: xətti, zamanla dəyişməz, kauzal, sabit.
+7. Digital-to-analog conversion (DAC)
+Digital-to-analog conversion changes digital data into an analog signal. Digital data uses 0 and 1. For example, a computer stores music in digital form. A speaker changes this digital information into sound. This process is called DAC.
 
-## 4. Signal reconstruction from discrete samples
+8. Analog-to-Digital Conversion
+Analog-to-digital conversion changes an analog signal into digital data. First, the system takes samples from the signal. Then, it changes these samples into digital numbers.
 
-To get the original signal back from its samples, you either use ideal sinc interpolation or a practical hold circuit (ZOH). It works perfectly as long as you sampled fast enough — at least twice the highest frequency (Nyquist–Shannon). *AZ:* Nümunələrdən əsl siqnalı geri almaq üçün ya ideal sinc interpolyasiyadan, ya da praktiki saxlama dövrəsindən (ZOH) istifadə olunur. Bu, kifayət qədər sürətlə nümunə götürülübsə işləyir — ən azı ən yüksək tezliyin iki qatı (Nyquist–Shannon).
+9. Discretization of Continuous-Time Processes
+A continuous-time signal changes all the time. Discretization means taking samples from this signal at different times   
+ 
 
-## 5. Data conversion and quantization
+10. Reconstruction of continuous functions
+This is the opposite of discretization. We make a continuous function from the samples.
+•	Zero-order hold: keeps each value constant (looks like steps).
+•	First-order hold: connects the points with straight lines.
 
-Sampling chops a signal into time steps; quantization rounds each step's height to the nearest allowed level, leaving a small rounding error behind. Together, these two steps make up the ADC. *AZ:* Nümunəgötürmə siqnalı zaman addımlarına bölür; kvantlama hər addımın hündürlüyünü ən yaxın icazə verilən səviyyəyə yuvarlaqlaşdırır və kiçik yuvarlaqlaşdırma xətası qalır. Bu iki addım birlikdə ADC-ni təşkil edir.
 
-## 6. Sample-and-hold circuits
 
-A sample-and-hold circuit grabs the signal's value at one instant and freezes it — using a switch, a capacitor, and a buffer — so the ADC has time to convert a steady number instead of a moving target. *AZ:* Nümunə-saxlama dövrəsi siqnalın bir andakı qiymətini tutur və dondurur — açar, kondensator və bufer vasitəsilə — ki, ADC hərəkət edən deyil, sabit bir ədədi çevirsin.
 
-## 7. Digital-to-analog conversion (DAC)
 
-A DAC turns a binary code into a real voltage or current, usually through a weighted-resistor or R-2R ladder network. The result looks like a staircase, since each sample holds its value until the next one arrives. *AZ:* DAC ikilik kodu real gərginliyə və ya cərəyana çevirir, adətən çəkili-müqavimət və ya R-2R pilləkən şəbəkəsi ilə. Nəticə pilləkənə bənzəyir, çünki hər nümunə növbəti gələnə qədər öz qiymətini saxlayır.
+11. Fourier Transform
+The Fourier transform shows which frequencies are inside a signal. It changes a signal from the time domain to the frequency domain. Example: a sound has many tones. The Fourier transform shows each tone.
+ 
 
-## 8. Analog-to-digital conversion (ADC)
+12. Modified Z-transform	
+The Modified Z-transform is a method used to study digital systems. It helps us understand how a system works with digital signals and delays.
 
-An ADC turns a real-world signal into binary code in three steps: sample it, round it (quantize), then encode the rounded value. Flash, successive-approximation, and sigma-delta are the three common designs. *AZ:* ADC real siqnalı üç addımda ikilik koda çevirir: nümunə götür, yuvarlaqlaşdır (kvantla), sonra kodla. Flash, ardıcıl yaxınlaşma və sigma-delta — üç geniş yayılmış dizayndır.
+13. Analog Model of the Extrapolator
+An extrapolator is a system that predicts future signal values. The analog model works with continuous signals. It is used in control and communication systems. It helps predict signal changes.
 
-## 9. Discretization of continuous-time processes
+14. Stable and unstable systems
+A stable system works correctly and gives limited output for limited input. An unstable system can produce a very large output. It may not work correctly.
+Example: H(z) = 1/(z − 0.5) is stable. H(z) = 1/(z − 2) is unstable.
 
-Taking a continuous signal and reading its value every T seconds gives the sequence x\[n\] = x(nT). The sampling theorem tells you how small T needs to be so you don't lose information (aliasing). *AZ:* Fasiləsiz siqnalın hər T saniyədə bir qiymətini oxumaq x\[n\] = x(nT) ardıcıllığını verir. Nümunəgötürmə teoremi T-nin nə qədər kiçik olmalı olduğunu göstərir ki, məlumat itirilməsin (aliasing).
+15. Design of Digital Filters and BIBO
+A digital filter changes a signal. It removes noise or keeps some frequencies. Types: low-pass, high-pass, band-pass, band-stop.
+•	FIR filter: no feedback. Always stable. Can have linear phase.
+•	IIR filter: uses feedback. Needs fewer coefficients, but can be unstable.
+BIBO means Bounded Input, Bounded Output. If the input is limited, the output must also be limited.
+16. Stability of Discrete-Time Systems and Routh-Hurwitz Criterion
+Stability means that the system gives a limited output. The Routh-Hurwitz criterion is a mathematical method for checking stability.
 
-## 10. Reconstruction of continuous functions
+17. Sampling and Quantization – Convolution
+Sampling takes values from a signal at different times. Quantization changes these values into fixed levels. Convolution is a mathematical operation between two signals. It helps us understand the output of a system.
 
-Getting x(t) back from x\[n\] means filling in the gaps between samples — ideally with sinc interpolation, or in practice with a DAC followed by a smoothing (reconstruction) low-pass filter. *AZ:* x\[n\]-dən x(t)-ni geri almaq nümunələr arasındakı boşluqları doldurmaq deməkdir — ideal halda sinc interpolyasiya ilə, praktikada isə DAC və ardından hamarlayıcı (bərpa) aşağı-keçirici filtrlə.
+18. Nyquist Criterion for Stability
+The Nyquist criterion checks the stability of a closed-loop system using the open-loop frequency response G(jω)H(jω).
+•	Formula: Z = N + P 
+o	Z = number of unstable closed-loop poles
+o	P = number of unstable open-loop poles
+o	N = number of clockwise turns around −1
+•	The system is stable if Z = 0.
 
-## 11. Fourier transform
 
-The Fourier transform takes a signal living in time and shows you what frequencies it's made of. For sampled signals, the DTFT or DFT does the same job. *AZ:* Furye çevrilməsi zamanda yaşayan siqnalı götürür və onun hansı tezliklərdən ibarət olduğunu göstərir. Nümunələnmiş siqnallar üçün eyni işi DTFT və ya DFT görür.
+19. Digital Controller – D/A Conversion
+A digital controller controls a system using digital data. It receives information, processes it and sends a control signal. D/A conversion changes digital data into an analog signal. For example, a computer can control a motor using a digital controller and a D/A converter.
 
-## 12. Modified Z-transform
+20. Realization of Digital Systems: IIR Direct, Parallel and Cascade
+Realization means choosing the structure (adders, multipliers, delays) to build the transfer function H(z) = B(z)/A(z).
+Form	           Advantage	                      Disadvantage
+Direct	               Simple	             Sensitive for high order
+Cascade	     Good accuracy, easy design	             Order of parts matters
+Parallel	      Good accuracy, fast	             Needs partial fractions
 
-The modified Z-transform is the regular Z-transform plus a knob for fractional delay inside one sample period — handy when a system has a built-in transport delay. *AZ:* Modifikə Z-çevrilmə — adi Z-çevrilməyə bir nümunə dövrü daxilində kəsr gecikmə üçün bir "düymə" əlavə edilmiş formasıdır — nəqliyyat gecikməsi olan sistemlər üçün faydalıdır.
 
-## 13. Analog model of the extrapolator
 
-The zero-order hold (ZOH) is how we model a DAC mathematically: its transfer function (1−e^(−sT))/s captures the fact that it just holds each sample's value flat until the next one arrives. *AZ:* Sıfır-dərəcəli saxlama (ZOH) DAC-ı riyazi olaraq necə modelləşdirdiyimizdir: (1−e^(−sT))/s ötürmə funksiyası hər nümunənin qiymətini növbəti gələnə qədər sadəcə düz saxladığını göstərir.
 
-## 14. Stable and unstable systems
 
-A system is stable if it never "blows up" — a bounded input always gives a bounded output. For discrete systems, that means every pole of H(z) must sit strictly inside the unit circle. *AZ:* Sistem sabitdir, əgər heç vaxt "partlamırsa" — məhdud giriş həmişə məhdud çıxış verir. Diskret sistemlər üçün bu, H(z)-in hər bir qütbünün vahid çevrənin tam daxilində olması deməkdir.
+21. Transfer Functions
+A transfer function describes how a system works. It shows the relationship between input and output. 
+•	Continuous: H(s) = Y(s) / X(s)
+•	Discrete: H(z) = Y(z) / X(z)
 
-## 15. Design of Digital Filters — BIBO (15 bal)
 
-When designing a digital filter, stability isn't optional — every pole must stay inside the unit circle. Whatever method you use (bilinear transform, windowing, optimization), it has to protect that. *AZ:* Rəqəmsal filtr dizayn edərkən sabitlik seçim deyil — hər qütb vahid çevrə daxilində qalmalıdır. İstifadə etdiyiniz üsul (bilinear çevrilmə, pəncərə, optimallaşdırma) bunu qorumalıdır.
+22. Modulation and Demodulation
+Modulation is the process of changing a signal for sending information. It helps send information over long distances. Demodulation is the process of getting the original information back. These processes are used in radio, television and mobile phones.
 
-## 16. Stability of Discrete Time Systems — Routh–Hurwitz Criterion (10 bal)
 
-To check stability without hunting for roots, map the z-domain polynomial into the w-domain (bilinear transform), then run the Routh–Hurwitz table on the w-domain coefficients. *AZ:* Kökləri axtarmadan sabitliyi yoxlamaq üçün z-oblastındakı çoxhədlini w-oblastına (bilinear çevrilmə ilə) köçür, sonra w-oblastının əmsallarına Routh–Hurwitz cədvəlini tətbiq et.
+23. Coefficient Quantization Effects in Digital Filters
+Coefficient quantization means changing filter numbers into fixed digital values. This happens because computers have limited accuracy. It can change the filter performance. 
 
-## 17. Sampling and quantization — Convolution
+24. Digital Signal Processing System
+A Digital Signal Processing system is a system that works with digital signals. It receives, processes and changes information. It can remove noise and improve signal quality. Computers and digital audio devices use this system. It is used in communication, music and image processing.
 
-Sampling is really just multiplying a signal by a train of pulses; quantization rounds the result to fixed levels. And here's the trick that powers all filtering: multiplying in one domain (time or frequency) is the same as convolving in the other. *AZ:* Nümunəgötürmə əslində siqnalı impuls ardıcıllığına vurmaqdır; kvantlama nəticəni sabit səviyyələrə yuvarlaqlaşdırır. Bütün filtrasiyanın əsasında duran fənd: bir oblastda (zaman və ya tezlik) vurma, digərində konvolyusiyaya bərabərdir.
 
-## 18. Nyquist criterion for stability
+25. Quadrature Modulation – Deviation
+Quadrature modulation uses two signals. These signals are called I and Q. They have a 90-degree phase difference. This method can send more information.
+Deviation means a change in signal frequency or phase from its normal value.
 
-For control systems, the Nyquist plot shows you the open-loop response as a curve. Count how many times that curve wraps around the point −1, and the argument principle tells you whether the closed-loop system is stable. *AZ:* İdarəetmə sistemləri üçün Nyquist qrafiki açıq-kontur cavabını əyri kimi göstərir. Bu əyrinin −1 nöqtəsi ətrafında neçə dəfə dövr etdiyini say, arqument prinsipi qapalı-kontur sistemin sabit olub-olmadığını göstərəcək.
 
-## 19. Digital controller — D/A conversion
+26. Spectral Characteristics
+Spectral characteristics show the frequency information of a signal. They help us understand the signal's frequency parts. A signal can have different frequencies.
+•	Amplitude spectrum: size of each frequency.
+•	Phase spectrum: phase of each frequency.
+•	Bandwidth: the width of the used frequency range.
 
-A digital controller crunches the control law in discrete time, using a difference equation to decide what to do next. A DAC then turns that decision into a real analog signal that drives the plant. *AZ:* Rəqəmsal kontroller idarəetmə qanununu diskret zamanda hesablayır, növbəti addımı fərq tənliyi ilə müəyyən edir. Sonra DAC bu qərarı real analoq siqnala çevirərək obyekti idarə edir.
+22. Modulation and Demodulation
+Modulation is the process of changing a signal for sending information. It helps send information over long distances. Demodulation is the process of getting the original information back. These processes are used in radio, television and mobile phones.
 
-## 20. Realization of Digital Systems — IIR Direct, Parallel, Cascade
 
-There are three ways to build an IIR filter from its transfer function: direct form codes the difference equation as-is; parallel form splits it into simple pieces added together; cascade form chains small second-order blocks multiplied together. Each trades off differently on coefficient sensitivity and rounding error. *AZ:* IIR filtri öz ötürmə funksiyasından qurmağın üç yolu var: düz forma fərq tənliyini olduğu kimi kodlayır; paralel forma onu sadə hissələrə bölüb toplayır; kaskad forma kiçik ikinci dərəcəli blokları zəncirləyib vurur. Hər biri əmsal həssaslığı və yuvarlaqlaşma xətası baxımından fərqli güzəştlər edir.
+28. Discrete-Time Systems
+A discrete-time system works with sequences x(n), not continuous signals. It changes an input sequence into an output sequence.
 
-## 21. Transfer functions
 
-The transfer function H(z) = Y(z)/X(z) is a system's "fingerprint" in the z-domain — once you have it, its poles and zeros tell you everything about stability and frequency response. *AZ:* Ötürmə funksiyası H(z) = Y(z)/X(z) sistemin z-oblastındakı "barmaq izi"dir — onu əldə etdikdən sonra qütb və sıfırları sabitlik və tezlik xarakteristikası haqqında hər şeyi deyir.
+29. Design of IIR Filter Using Bilinear Z-Transform
+First, we choose an analog filter. Then, we find its transfer function. We use the bilinear transform formula to change the analog filter into a digital filter. We replace s with z. Finally, we get a digital filter.
 
-## 22. Modulation and demodulation
 
-Modulation rides your information on top of a carrier wave (think AM, FM, PM, QAM) so it can travel through a channel. Demodulation is just peeling that information back off at the receiving end. *AZ:* Modulyasiya məlumatını daşıyıcı dalğanın üzərinə mindirir (AM, FM, PM, QAM kimi) ki, kanal boyunca getsin. Demodulyasiya isə qəbul tərəfində bu məlumatı geri soymaqdır.
+30. FIR and IIR Filters
+FIR and IIR are two types of digital filters. FIR means Finite Impulse Response. It uses only previous input values. IIR means Infinite Impulse Response. It uses previous input and output values. FIR filters are always stable in normal conditions, but IIR filters can be stable or unstable. Both are used to remove noise and improve signals.
 
-## 23. Coefficient quantization effects in digital filters
 
-Real filters store their coefficients with limited precision, and that rounding nudges the poles and zeros slightly out of place — sometimes just blurring the frequency response, sometimes tipping the filter into instability or weird limit cycles. *AZ:* Real filtrlər əmsallarını məhdud dəqiqliklə saxlayır, bu yuvarlaqlaşma qütb və sıfırları bir az yerindən tərpədir — bəzən sadəcə tezlik xarakteristikasını bulandırır, bəzən isə filtri qeyri-sabitliyə və ya qəribə limit tsiklərinə itələyir.
 
-## 24. Digital Signal Processing System
+31. Recursive Smoother
+A smoother reduces noise and makes a signal more smooth. A recursive smoother uses the old output to make the new output (feedback).
+•	Simple formula (exponential smoother): y(n) = α·x(n) + (1 − α)·y(n−1), where 0 < α < 1.
+It is used in digital signal processing.
 
-A DSP system is the full pipeline: an ADC brings the analog world in, digital processing (filters, transforms) does the thinking, and a DAC sends the result back out. It's the backbone of modern audio, communications, and control gear. *AZ:* DSP sistemi tam borudur: ADC analoq dünyanı içəri gətirir, rəqəmsal emal (filtrlər, çevrilmələr) düşünmə işini görür, DAC isə nəticəni geri göndərir. Bu, müasir səs, rabitə və idarəetmə avadanlığının onurğasıdır.
+32. Group Delay, Linear Phase, All-pass, Minimum Phase
+Group delay shows how much a signal is delayed by a filter. Linear phase means that all frequencies have the same time delay. An all-pass filter changes the phase but keeps the signal size the same. A minimum-phase filter has a small delay. These filters are used in digital signal processing.
 
-## 25. Quadrature modulation — Deviation
 
-Quadrature modulation packs two independent signals onto one carrier by riding them on cos and sin versions of it (I and Q). Frequency deviation is simply how far FM's instantaneous frequency wanders away from the carrier. *AZ:* Kvadratur modulyasiya iki müstəqil siqnalı bir daşıyıcıya cos və sin versiyalarında (I və Q) mindirir. Tezlik deviasiyası isə FM-də anlıq tezliyin daşıyıcıdan nə qədər uzaqlaşdığıdır.
+33. Analog-to-Digital Conversion
+Analog-to-digital conversion changes an analog signal into digital data. First, the system takes samples from the signal. Then, it changes these samples into digital numbers. For example, a microphone changes sound into digital data. This process is called ADC.
+•	Steps: Anti-aliasing filter → Sampling → Hold → Quantization → Encoding.
 
-## 26. Spectral characteristics
 
-Spectral characteristics describe how a signal's energy spreads out across different frequencies — found using Fourier analysis, power spectral density, bandwidth, and the peaks in the spectrum. *AZ:* Spektral xüsusiyyətlər siqnalın enerjisinin müxtəlif tezliklər üzrə necə yayıldığını təsvir edir — Furye analizi, güc spektral sıxlığı, buraxma zolağı və spektrdəki zirvələr vasitəsilə tapılır.
+34. A Fundamental Definition of System Stability
+System stability means that a system works correctly. A stable system gives a limited output when it receives a limited input. An unstable system can give a very large output. 
+Tests: Routh-Hurwitz, Jury test, Nyquist.
 
-## 27. Modulation and demodulation
+35. Sampling and Quantization
+Sampling takes values from a signal at different times. Quantization changes these values into fixed levels. These processes change an analog signal into digital data. They are important in digital systems. They are used in sound and image processing.
 
-Whether analog (AM/FM/PM) or digital (ASK/FSK/PSK), modulation loads data onto a carrier to send it, and a matching demodulator (envelope, coherent, or correlation-based) unloads it at the other end. *AZ:* İstər analoq (AM/FM/PM), istər rəqəmsal (ASK/FSK/PSK) olsun, modulyasiya məlumatı göndərmək üçün daşıyıcıya yükləyir, uyğun demodulyator (zərf, koherent, korrelyasiya əsaslı) isə digər uçda onu boşaldır.
+36. Aliasing and Anti-Aliasing in Digital Systems
+Aliasing happens when a signal is sampled too slowly. It happens when fs < 2·fmax. It can change the real information of a signal. Anti-aliasing helps prevent this problem. It uses a special filter(low-pass filter ) before sampling. This makes the digital signal more accurate.
 
-## 28. Discrete Time Systems
 
-Discrete-time systems live entirely on sequences x\[n\] and are described by difference equations. They can be linear or nonlinear, time-invariant or not — and the Z-transform is the usual tool to analyze them. *AZ:* Diskret-zaman sistemləri tamamilə x\[n\] ardıcıllıqları üzərində yaşayır və fərq tənlikləri ilə təsvir olunur. Xətti və ya qeyri-xətti, zamanla dəyişməz və ya dəyişən ola bilər — onları təhlil etmək üçün adətən Z-çevrilmədən istifadə olunur.
+37. Nyquist–Shannon Sampling Theorem
+The Nyquist-Shannon theorem explains how to sample a signal correctly. The sampling frequency must be at least two times higher than the maximum signal frequency. This helps us get the original signal back. It also helps prevent aliasing.
 
-## 29. Design of IIR filter using bilinear z-transform
 
-The bilinear transform converts an analog prototype filter into a digital one, substituting s = (2/T)·(1−z⁻¹)/(1+z⁻¹). It keeps the filter stable, but it bends the frequency axis — so you need to pre-warp the cutoff frequency first. *AZ:* Bilinear çevrilmə analoq prototip filtri rəqəmsal filtrə çevirir, s = (2/T)·(1−z⁻¹)/(1+z⁻¹) əvəzləməsi ilə. Bu, filtri sabit saxlayır, amma tezlik oxunu əyir — ona görə əvvəlcə kəsmə tezliyini öncədən bükmək (pre-warp) lazımdır.
+38. Correlation Analysis
+Correlation analysis shows the relationship between two signals. It helps us understand how similar they are. If two signals change in the same direction, they have positive correlation. If they change in opposite directions, they have negative correlation. It is used in signal processing and data analysis.
 
-## 30. FIR and IIR filters
 
-FIR filters have no feedback — that makes them always stable and able to have perfectly linear phase. IIR filters use feedback — more efficient for a given sharpness, but they can go unstable and their phase isn't linear. *AZ:* FIR filtrlərin geriəlaqəsi yoxdur — bu onları həmişə sabit edir və tam xətti fazaya malik ola bilər. IIR filtrlər geriəlaqədən istifadə edir — eyni kəskinlik üçün daha səmərəlidir, amma qeyri-sabit ola bilər və fazası xətti deyil.
+39. Equalization Filters
+An equalization filter changes the frequency parts of a signal. It can increase or decrease some frequencies. It helps improve sound quality.
+Types: 
+•	Linear (FIR) equalizer, Adaptive equalizer, Decision feedback equalizer (DFE)
 
-## 31. Recursive smoother
+40. Frequency Response and Transfer Function
+Frequency response shows how a system works at different frequencies. It has two parts: Magnitude , Phase.
+ A transfer function shows the relationship between input and output  H(z) = Y(z)/X(z).  
 
-A recursive smoother filters data using feedback instead of a big window of past samples — like the exponential moving average y\[n\] = αx\[n\] + (1−α)y\[n−1\], which smooths noise in real time with almost no memory needed. *AZ:* Rekursiv hamarlayıcı məlumatı böyük keçmiş nümunə pəncərəsi əvəzinə geriəlaqə ilə filtrlər — məsələn eksponensial hərəkətli orta y\[n\] = αx\[n\] + (1−α)y\[n−1\], demək olar heç yaddaş tələb etmədən səs-küyü real vaxtda hamarlayır.
+41. Quantization Error
+Quantization error is the difference between the real signal value and the digital value. It happens during quantization. A computer cannot save every signal value exactly. This creates a small error. We try to make this error smaller.
 
-## 32. Group delay, linear phase, all-pass, minimum phase
 
-Group delay (−dθ/dω) tells you how much each frequency gets delayed. Linear-phase filters delay every frequency equally, so nothing gets distorted. All-pass filters pass every frequency at the same strength but twist the phase. Minimum-phase systems keep their poles and zeros inside the unit circle, giving the smallest possible delay for a given frequency response. *AZ:* Qrup gecikməsi (−dθ/dω) hər tezliyin nə qədər gecikdiyini göstərir. Xətti-fazalı filtrlər hər tezliyi eyni dərəcədə gecikdirir, ona görə təhrif olmur. All-pass filtrlər hər tezliyi eyni gücdə buraxır, amma fazanı burur. Minimum-fazalı sistemlər qütb və sıfırlarını vahid çevrə daxilində saxlayır, verilmiş tezlik xarakteristikası üçün ən kiçik mümkün gecikməni verir.
+42. All-Pass Filters
+An all-pass filter is a digital filter. It allows all frequencies to pass. It changes the phase of a signal but keeps its size the same. It is used in audio and digital signal processing. It helps control signal delay.
 
-## 33. Analog to Digital Conversion
+43. The Fourier Transform and Digital Fourier Transform
+The Fourier Transform changes a signal from the time domain to the frequency domain. It helps us see the frequencies in a signal. The Digital Fourier Transform works with digital signals. It is used to study sound, music and images. It is important in signal processing.
 
-ADC quality comes down to three numbers: resolution (how many bits), sampling rate (how often), and the SNR you end up with — all set by the sampling-quantization-encoding chain. *AZ:* ADC keyfiyyəti üç ədədə gəlib çatır: həlletmə qabiliyyəti (neçə bit), nümunəgötürmə tezliyi (nə qədər tez-tez) və nəticədə alınan SNR — hamısı nümunəgötürmə-kvantlama-kodlaşdırma zənciri ilə müəyyən olunur.
 
-## 34. A fundamental definition of system stability
+44. First-Order Notch Filter
+A first-order notch filter reduces a special frequency in a signal. It allows other frequencies to pass. It helps remove unwanted noise. For example, it can reduce noise in audio signals. It is used in electronic systems.
 
-The simplest way to say it: stable means bounded input, bounded output — always. Technically, that requires the impulse response to be absolutely summable, or equivalently, every pole inside the unit circle (left-half plane for continuous systems). *AZ:* Ən sadə ifadə ilə: sabit — məhdud giriş, məhdud çıxış deməkdir — həmişə. Texniki olaraq bu, impuls cavabının mütləq cəmlənə bilməsini, yaxud ekvivalent olaraq hər qütbün vahid çevrə daxilində (fasiləsiz sistemlər üçün sol yarı-müstəvidə) olmasını tələb edir.
+45. Second-Order Unity Gain Resonator
+A second-order unity gain resonator is a type of digital filter. It works with a special frequency. Unity gain means that the signal size stays the same at a selected frequency. It is used in audio and signal processing. It helps control and study frequencies.
 
-## 35. Sampling and Quantization
+46. State Space
+State Space is a mathematical method for describing a system. It uses input, output and state variables. It helps us understand how a system works over time. Engineers use it to study and control systems. It is important in control engineering.
 
-ADC is really two jobs stacked: sample in time, then quantize in amplitude. Each has its own theoretical limit — the Nyquist rate for sampling, and quantization noise for amplitude. *AZ:* ADC əslində üst-üstə qoyulmuş iki işdir: zamanda nümunə götür, sonra amplitüddə kvantla. Hər birinin öz nəzəri həddi var — nümunəgötürmə üçün Nyquist nərəi, amplitüd üçün isə kvantlama səs-küyü.
+47. Transformation of Random Signals in Discrete-Time Systems
+Random signals are signals that change in an unpredictable way. A discrete-time system takes samples of these signals. Then, it processes the samples. The output signal may also be random. This process is used in communication and digital signal processing.
 
-## 36. Aliasing — Anti-aliasing in digital systems
+48. High-Pass Filters
+A high-pass filter allows high frequencies to pass. It reduces low frequencies. It can remove low-frequency noise from a signal. It is used in audio and communication systems. It helps improve signal quality.
 
-Sample too slowly and high frequencies "disguise" themselves as lower ones — that's aliasing, and once it happens you can't undo it. An anti-aliasing low-pass filter, applied before sampling, keeps those high frequencies from ever getting in. *AZ:* Çox yavaş nümunə götürsən, yüksək tezliklər özlərini aşağı tezliklər kimi "gizləyir" — bu, aliasingdir, bir dəfə baş verəndən sonra geri qaytarıla bilməz. Nümunəgötürmədən əvvəl tətbiq edilən anti-aliasing aşağı-keçirici filtr bu yüksək tezlikləri heç içəri buraxmır.
+49. Low-Pass Filters
+A low-pass filter allows low frequencies to pass. It reduces high frequencies. It can remove unwanted high-frequency noise. It is used in audio and digital systems. It helps make signals smoother.
 
-## 37. Nyquist–Shannon sampling theorem
+50. Band-Pass Filters
+A band-pass filter allows a selected range of frequencies to pass. It reduces very low and very high frequencies. It is used in radio and communication systems. It helps select useful signals. It is important in digital signal processing.
 
-Here's the whole theorem in one line: sample at least twice as fast as your signal's highest frequency, and you can rebuild it perfectly. Sample slower, and you lose information for good. *AZ:* Teoremin tamamı bir cümlədə: siqnalın ən yüksək tezliyinin ən azı iki qatı sürətlə nümunə götür, onda onu tam bərpa edə bilərsən. Daha yavaş nümunə götürsən, məlumatı həmişəlik itirərsən.
 
-## 38. Correlation Analysis
+51. Relationship Between Sampling Frequency and Maximum Frequency
+Sampling frequency shows how many samples we take in one second. The maximum frequency is the highest frequency in a signal. According to the Nyquist theorem, the sampling frequency must be at least two times higher than the maximum frequency. This helps us get the original signal back.
 
-Correlation measures how alike two signals are at different time shifts — cross-correlation between two different signals, autocorrelation between a signal and a delayed copy of itself. It's the go-to tool for detecting signals and syncing clocks. *AZ:* Korrelyasiya iki siqnalın müxtəlif zaman sürüşmələrində bir-birinə nə qədər oxşar olduğunu ölçür — fərqli siqnallar üçün qarşılıqlı-korrelyasiya, siqnalın öz gecikdirilmiş kopyası ilə isə avtokorrelyasiya. Siqnal aşkarlama və saat sinxronlaşdırmasında əsas vasitədir.
 
-## 39. Equalization filters
+52. Nyquist Frequency, Aliasing and Signal Reconstruction
+Nyquist frequency is half of the sampling frequency. Aliasing happens when we sample a signal too slowly. It changes the real frequency information. Signal reconstruction means creating the original signal from digital samples. We need a correct sampling frequency to avoid aliasing.
+53. Sampling Frequency Calculation
+ 
+If we sample the signal at 12 kHz, the sampling frequency is too low. Aliasing happens. We cannot get the original signal correctly.
 
-An equalizer is basically an "undo" button for a channel's distortion — it applies the inverse of the channel's frequency response, flattening everything back out so symbols don't bleed into each other. *AZ:* Ekvalayzer əslində kanal təhrifi üçün "geri al" düyməsidir — kanalın tezlik xarakteristikasının tərsini tətbiq edir, hər şeyi yenidən hamarlayır ki, simvollar bir-birinə qarışmasın.
+54. Fundamental Principles of Digital System Analysis
+Digital system analysis helps us understand how a digital system works. It studies input, output and system behavior. It also studies stability and frequency response. Engineers use mathematical methods to analyze systems. This helps them design better digital systems.
 
-## 40. Frequency Response & Transfer Function
 
-Evaluate a system's transfer function H(z) right on the unit circle, and you get its frequency response H(e^jω) — the recipe for exactly how much each frequency gets boosted, cut, or phase-shifted. *AZ:* Sistemin H(z) ötürmə funksiyasını birbaşa vahid çevrə üzərində hesabla, tezlik xarakteristikasını H(e^jω) alırsan — bu, hər tezliyin nə qədər gücləndirildiyini, kəsildiyini və ya faza sürüşdürüldüyünü göstərən reseptdir.
+55. Role of the Z-Transform in Analyzing Discrete-Time Systems
+The Z-transform is a mathematical method. It changes a discrete-time signal into the Z-domain. It helps us study digital systems. We can find the transfer function, poles and zeros. It also helps us check system stability.
 
-## 41. Quantization Error
+56. Linearity, Time Invariance, Causality and Stability
+Linearity means that a system follows the rules of addition and multiplication. Time invariance means that the system works in the same way at different times. Causality means that the output depends only on present and past inputs. Stability means that a limited input gives a limited output. These properties help us understand digital systems.
+57. Poles and Zeros in Digital Systems
+Poles and zeros are important parts of a transfer function. Zeros are points where the transfer function becomes zero. Poles are points where the transfer function becomes very large. They affect the system's behavior and frequency response. They also help us check system stability.
 
-Quantization error is the small gap between the true value and the rounded one — never more than half a step (±Δ/2) either way. Treated as random noise, it sets your SNR ceiling: roughly 6.02N + 1.76 dB for N bits. *AZ:* Kvantlama xətası əsl qiymət ilə yuvarlaqlaşdırılmış qiymət arasındakı kiçik fərqdir — heç vaxt yarım addımdan (±Δ/2) çox olmur. Təsadüfi səs-küy kimi qəbul edilir, SNR tavanını müəyyən edir: N bit üçün təxminən 6.02N + 1.76 dB.
 
-## 42. All-pass filters
+58. Transfer Function of a Discrete-Time Digital System
+ 
 
-An all-pass filter is sneaky: every frequency comes out at the same volume, but the phase gets twisted on the way through. Its poles and zeros mirror each other across the unit circle. Great for correcting phase without touching the frequency response. *AZ:* All-pass filtr hiyləgərdir: hər tezlik eyni səs səviyyəsində çıxır, amma faza yoldan keçərkən burulur. Qütb və sıfırları vahid çevrəyə görə bir-birinin güzgü əksidir. Tezlik xarakteristikasına toxunmadan fazanı düzəltmək üçün əladır.
 
-## 43. The Fourier Transform — Digital Fourier Transform
+59. Transfer Function from a Difference Equation Using Z-Transform
+ 
 
-The continuous Fourier transform splits a signal into a continuous range of frequencies. The DFT does the same job for a finite chunk of samples, giving you discrete frequency bins. The FFT is just a fast way to compute the DFT. *AZ:* Fasiləsiz Furye çevrilməsi siqnalı fasiləsiz tezlik diapazonuna ayırır. DFT eyni işi sonlu nümunə parçası üçün görür, diskret tezlik "qutuları" verir. FFT isə DFT-ni sürətli hesablama üsuludur.
 
-## 44. First-order notch filter
+10. Relationship Between Transfer Function, Poles, Zeros, Stability and Frequency Response
+The transfer function shows how a digital system works. Poles and zeros are parts of this function. They affect the system's stability and frequency response. For a causal digital system, all poles must be inside the unit circle for stability. Frequency response shows how the system works at different frequencies. These concepts help engineers design digital systems.
 
-A notch filter is a sniper, not a shotgun — it cuts out one specific frequency and leaves everything else alone. You get this by placing a zero right on the unit circle at that frequency, with a nearby pole to sharpen the cut. *AZ:* Notch filtr snayperdir, ov tüfəngi yox — yalnız bir xüsusi tezliyi kəsir, qalanına toxunmur. Bu, həmin tezlikdə vahid çevrə üzərində bir sıfır qoymaqla əldə olunur, yaxında bir qütb isə kəsiyi kəskinləşdirir.
 
-## 45. Second-order unity gain resonator
 
-A second-order resonator is built to ring at one frequency — a pair of complex poles sitting close to the unit circle right at the resonant frequency creates a sharp peak there, with unity gain. Perfect for generating or picking out a single tone. *AZ:* İkinci dərəcəli rezonator bir tezlikdə "zəngləmək" üçün qurulub — rezonans tezliyində vahid çevrəyə yaxın yerləşən kompleks qütb cütü orada vahid gücləndirmə ilə iti zirvə yaradır. Tək bir ton yaratmaq və ya ayırmaq üçün idealdır.
 
-## 46. State Space
 
-State space describes a system through its internal state, not just what goes in and out: x\[n+1\] = Ax\[n\] + Bu\[n\], y\[n\] = Cx\[n\] + Du\[n\]. It captures what's happening "inside" the box — especially useful for systems with many inputs and outputs. *AZ:* Vəziyyət fəzası sistemi sadəcə giriş-çıxışı ilə yox, daxili vəziyyəti ilə təsvir edir: x\[n+1\] = Ax\[n\] + Bu\[n\], y\[n\] = Cx\[n\] + Du\[n\]. Qutunun "içində" nə baş verdiyini əks etdirir — çoxlu giriş-çıxışlı sistemlər üçün xüsusilə faydalıdır.
 
-## 47. Transformation of Random Signals in Discrete-Time Systems
 
-Send a random signal through an LTI system and its statistics (mean, autocorrelation, power spectral density) change in a predictable way: the output's power spectrum is just |H(e^jω)|² times the input's. *AZ:* Təsadüfi siqnalı LTI sistemdən keçirsən, onun statistikası (orta, avtokorrelyasiya, güc spektral sıxlığı) proqnozlaşdırıla bilən şəkildə dəyişir: çıxışın güc spektri sadəcə |H(e^jω)|² vurulmuş girişin spektridir.
 
-## 48. High pass filters
 
-A high-pass filter is a bouncer for low frequencies — it blocks them and lets the highs through. Handy for stripping out DC offset and low-frequency noise, or sharpening sudden transitions. *AZ:* High-pass filtr aşağı tezliklər üçün "fərasiz"dir — onları bloklayır, yuxarıları buraxır. DC yerdəyişməsini və aşağı-tezlikli səs-küyü təmizləmək, yaxud kəskin keçidləri kəskinləşdirmək üçün əlverişlidir.
 
-## 49. Low pass filters
 
-A low-pass filter does the opposite — it lets the lows through and blocks the highs. That's your go-to for anti-aliasing, smoothing a signal, or cutting noise. *AZ:* Low-pass filtr əksinədir — aşağıları buraxır, yuxarıları bloklayır. Anti-aliasing, siqnalı hamarlaşdırmaq və ya səs-küyü kəsmək üçün əsas vasitədir.
 
-## 50. Band pass filters
 
-A band-pass filter only opens the gate for a chosen middle range of frequencies and blocks everything outside it — exactly what you need to pick one channel out of many or detect a specific tone. *AZ:* Band-pass filtr yalnız seçilmiş orta tezlik diapazonuna qapını açır, kənarındakı hər şeyi bloklayır — çoxlu kanal arasından birini seçmək və ya müəyyən tonu aşkarlamaq üçün lazım olan budur.
 
-## 51. Relationship between the sampling frequency and the maximum frequency
 
-The rule never changes: sample at least twice as fast as your highest frequency (fs ≥ 2×fmax). Half your sampling rate (fs/2) is the ceiling — anything above it can't be represented without aliasing. *AZ:* Qayda heç vaxt dəyişmir: ən yüksək tezliyin ən azı iki qatı sürətlə nümunə götür (fs ≥ 2×fmax). Nümunəgötürmə tezliyinin yarısı (fs/2) tavandır — ondan yuxarı heç nə aliasingsiz təmsil oluna bilməz.
 
-## 52. Nyquist frequency, aliasing, and signal reconstruction
 
-Three ideas, one package: Nyquist frequency (fs/2) is your safety ceiling; aliasing is what happens when frequencies sneak above it and fold back, overlapping with real ones; reconstruction works perfectly, via an ideal low-pass filter, as long as you respected that ceiling in the first place. *AZ:* Üç fikir, bir paket: Nyquist tezliyi (fs/2) sənin təhlükəsizlik tavanındır; aliasing — tezliklərin bu tavandan yuxarı sızıb geri qatlanması və əsl tezliklərlə üst-üstə düşməsidir; bərpa isə, əgər əvvəlcə bu tavana riayət etmisənsə, ideal aşağı-keçirici filtrlə mükəmməl işləyir.
 
-## 53. A continuous-time signal with components up to 8 kHz — minimum sampling frequency and what happens at 12 kHz
 
-Your signal tops out at 8 kHz, so you need at least fs = 16 kHz to capture it safely. Sample it at 12 kHz instead (below that minimum) and frequencies above fs/2 = 6 kHz fold back and overlap the real ones — the signal comes out corrupted and can't be rebuilt accurately. *AZ:* Siqnalın 8 kHz-ə qədər gedirsə, onu etibarlı tutmaq üçün ən azı fs = 16 kHz lazımdır. Bunun yerinə 12 kHz-lə (minimumdan aşağı) nümunə götürsən, fs/2 = 6 kHz-dən yuxarı tezliklər geriyə qatlanır və əsl tezliklərlə üst-üstə düşür — siqnal təhrif olunmuş çıxır və dəqiq bərpa edilə bilmir.
 
-## 54. Fundamental principles of digital system analysis
 
-Five things to check when analyzing a digital system: is it linear, time-invariant, causal, stable — and what does the Z-transform say about its behavior, response, and design requirements? *AZ:* Rəqəmsal sistemi təhlil edərkən yoxlanacaq beş şey: xətti, zamanla dəyişməz, kauzal, sabitdirmi — və Z-çevrilmə onun davranışı, cavabı və dizayn tələbləri haqqında nə deyir?
 
-## 55. The role of the Z-transform in analyzing discrete-time systems
 
-The Z-transform's superpower is turning tricky difference equations into simple algebra in the z-domain — from there you can read off stability, frequency response, and replace messy convolution with plain multiplication. *AZ:* Z-çevrilmənin super gücü çətin fərq tənliklərini z-oblastında sadə cəbrə çevirməkdir — bundan sonra sabitliyi, tezlik xarakteristikasını oxuya, qarışıq konvolyusiyanı isə sadə vurma ilə əvəz edə bilərsən.
 
-## 56. Linearity, time invariance, causality, and stability
 
-Four pillars of LTI systems: linearity (add inputs, add outputs), time-invariance (shift the input, get the exact same shifted output), causality (no peeking at future inputs), and stability (bounded input, bounded output). *AZ:* LTI sistemlərin dörd sütunu: xəttilik (girişləri topla, çıxışlar da toplanır), zamanla dəyişməzlik (girişi sürüşdür, eyni sürüşmüş çıxışı al), kauzallıq (gələcək girişə baxmaq yoxdur) və sabitlik (məhdud giriş, məhdud çıxış).
 
-## 57. How poles and zeros affect the behavior and frequency response of a digital system
 
-Think of poles as the system's "personality" — near the unit circle means it rings (resonance), outside means it's unstable. Zeros are the system's "mute buttons" — they carve out nulls at specific frequencies. Together they shape every bit of H(z)'s magnitude and phase. *AZ:* Qütbləri sistemin "xarakteri" kimi düşün — vahid çevrəyə yaxın olsa "zəngləyir" (rezonans), kənarda olsa qeyri-sabitdir. Sıfırlar isə sistemin "susdurma düymələri"dir — müəyyən tezliklərdə boşluq yaradır. Birlikdə H(z)-in bütün amplitüd və fazasını formalaşdırırlar.
 
-## 58. Define the transfer function of a discrete-time digital system
 
-H(z) = Y(z)/X(z) — take the Z-transform of the output, divide by the Z-transform of the input (starting from rest), and you've fully captured how an LTI system behaves. *AZ:* H(z) = Y(z)/X(z) — çıxışın Z-çevrilməsini al, girişin Z-çevrilməsinə böl (sıfırdan başlayaraq), LTI sistemin davranışını tam tutmuş olursan.
 
-59. How the transfer function is obtained from a linear constant-coefficient difference equation using the Z-transform
 
-Starting from a difference equation, Z-transform both sides (the time-shift property does the heavy lifting), then just solve algebraically for Y(z)/X(z) — that ratio is H(z). *AZ:* Fərq tənliyindən başlayaraq, hər iki tərəfi Z-çevir (zaman-sürüşmə xassəsi əsas işi görür), sonra sadəcə Y(z)/X(z) üçün cəbri həll et — bu nisbət H(z)-dir.
-
-## 60. The relationship between the transfer function, poles, zeros, system stability, and frequency response
-
-It all connects: find H(z), read off its poles and zeros, and you instantly know whether the system is stable (poles inside the unit circle) and what its frequency response looks like (just evaluate H(z) on that circle) — pole and zero placement is literally what shapes the passband and stopband. *AZ:* Hamısı bağlıdır: H(z)-i tap, qütb və sıfırlarını oxu, dərhal bilirsən ki, sistem sabitdirmi (qütblər vahid çevrə daxilində) və tezlik xarakteristikası necədir (sadəcə H(z)-i o çevrə üzərində hesabla) — qütb və sıfır yerləşməsi məhz buraxma və dayandırma zolaqlarını formalaşdırır.
 
