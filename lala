@@ -1,492 +1,398 @@
-Sampling of an Analog Signal
-f = 5;
-fs = 20;
-t = 0:0.001:10;
-
-x = sin(2*pi*f*t);
-
-ts = 0:1/fs:10;
-xs = sin(2*pi*f*ts);
-
-plot(t,x,'b');
-hold on;
-stem(ts,xs,'r');
-
-grid on;
-xlabel('Time');
-ylabel('Amplitude');
-legend('Original Signal','Sampled Signal');
-title('Sampling of an Analog Signal');
-
-Quantization of a Signal
-n = 0:49;
-x = sin(0.2*pi*n);
-
-q = 0.2;
-xq = round(x/q)*q;
-
-stem(n,xq);
-grid on;
-xlabel('n');
-ylabel('Amplitude');
-title('Quantized Signal');
+1. Create a table Users with a primary key user_id and a unique email. What is the difference between them?
 
-Sampling of a Random Signal Using Different
-t = 0:0.001:1;
-x = rand(size(t));
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE
+);
 
-fs1 = 20;
-fs2 = 50;
-fs3 = 100;
+PRIMARY KEY = UNIQUE + NOT NULL, only one allowed per table.
+UNIQUE = duplicate values not allowed, but NULL values are allowed.
+#
 
-t1 = 0:1/fs1:1;
-t2 = 0:1/fs2:1;
-t3 = 0:1/fs3:1;
+2. Build a report with one column labelled by type: all customer names and all supplier names together.
 
-x1 = interp1(t,x,t1);
-x2 = interp1(t,x,t2);
-x3 = interp1(t,x,t3);
+SELECT customer_name AS name, 'Customer' AS type FROM Customers
+UNION
+SELECT supplier_name AS name, 'Supplier' AS type FROM Suppliers;
+#
 
-subplot(4,1,1);
-plot(t,x);
-title('Original Signal');
+3. Find employees who have the highest salary in the company.
 
-subplot(4,1,2);
-stem(t1,x1);
-title('Sampling at 20 Hz');
+SELECT * FROM Employees
+WHERE salary = (SELECT MAX(salary) FROM Employees);
+#
 
-subplot(4,1,3);
-stem(t2,x2);
-title('Sampling at 50 Hz');
+4. Find orders with an amount higher than the overall average order amount.
 
-subplot(4,1,4);
-stem(t3,x3);
-title('Sampling at 100 Hz');
+SELECT * FROM Orders
+WHERE amount > (SELECT AVG(amount) FROM Orders);
+#
 
-Simulink Model for Random Signal Sampling
-Open MATLAB and start Simulink.
-Add a Random Number block.
-Add three Zero-Order Hold blocks.
-Set sample times to 0.05, 0.02 and 0.01 seconds.
-Connect the blocks to Scope.
-Run the simulation and compare the results.
+5. Show customers whose total order amount is above 1000, sorted from highest to lowest.
 
-Quantizer Model for Pulse and Sine Wave
-Open Simulink.
-Add a Sine Wave block.
-Add a Pulse Generator block.
-Add a Quantizer block.
-Connect the signals to the Quantizer.
-Connect the output to Scope.
-Run the simulation.
+SELECT customer_id,
+       SUM(amount) AS total_order_amount
+FROM Orders
+GROUP BY customer_id
+HAVING SUM(amount) > 1000
+ORDER BY total_order_amount DESC;
+#
 
-Signal Restoration Using First Order Hold
-t = 0:0.01:2;
-x = sin(2*pi*t);
+6. Count employees for each combination of department and city.
 
-ts = 0:0.2:2;
-xs = sin(2*pi*ts);
+SELECT department,
+       city,
+       COUNT(*) AS employee_count
+FROM Employees
+GROUP BY department, city;
+#
 
-xr = interp1(ts,xs,t,'linear');
+7. Sort employees by department ascending, then by salary descending within each department.
 
-plot(t,x,'b');
-hold on;
-stem(ts,xs,'r');
-plot(t,xr,'g');
-grid on;
+SELECT * FROM Employees
+ORDER BY department ASC, salary DESC;
+#
 
-legend('Original','Sampled','FOH');
+8. Select employees who are NOT (in Baku or earning less than 1000).
 
-MATLAB Code for Stability
-num = [1 0.5];
-den = [1 -0.7];
+SELECT * FROM Employees
+WHERE NOT (city = 'Baku' OR salary < 1000);
+#
 
-sys = tf(num,den,1);
+9. Copy all employees from Baku into the table Employees_Archive (same structure).
 
-p = pole(sys);
+INSERT INTO Employees_Archive
+SELECT * FROM Employees WHERE city = 'Baku';
+#
 
-if all(abs(p) < 1)
-    disp('System is Stable');
-else
-    disp('System is Unstable');
-end
+10. Delete duplicate employees (same first_name and last_name), keeping the one with the smallest emp_id.
 
-Analyze the stability of a digital control system using the Nyquist criterion in Matlab
-num = 0.5;
-den = [1 -0.6];
+DELETE e1 FROM Employees e1
+JOIN Employees e2
+  ON e1.first_name = e2.first_name
+ AND e1.last_name = e2.last_name
+ AND e1.emp_id > e2.emp_id;
+#
 
-G = tf(num,den,1);
+11. Set the salary to the company average for all employees whose salary is NULL.
 
-nyquist(G);
-grid on;
-title('Nyquist Plot');
+UPDATE Employees
+SET salary = (SELECT AVG(salary) FROM Employees)
+WHERE salary IS NULL;
+#
 
-T = feedback(G,1);
+12. Find the average of the department salary totals (subquery in FROM).
 
-pole(T)
+SELECT AVG(dept_total) AS avg_department_salary
+FROM (
+    SELECT SUM(salary) AS dept_total
+    FROM Employees
+    GROUP BY department
+) t;
+#
 
-Analysis of a Digital Control System Using the Routh–Hurwitz Criterion in MATLAB
-a = [1 4 6 4];
+13. Find customers who have never placed an order.
 
-R = zeros(4,2);
+SELECT * FROM Customers c
+WHERE NOT EXISTS (
+    SELECT 1 FROM Orders o WHERE o.customer_id = c.customer_id
+);
+#
 
-R(1,:) = [a(1) a(3)];
-R(2,:) = [a(2) a(4)];
+14. Find the second highest salary.
 
-R(3,1) = (R(2,1)*R(1,2)-R(1,1)*R(2,2))/R(2,1);
-R(4,1) = R(2,2);
+SELECT MAX(salary) FROM Employees
+WHERE salary < (SELECT MAX(salary) FROM Employees);
+#
 
-disp(R);
+15. Find employees who earn more than the average salary of their own department (correlated subquery).
 
-if all(R(:,1) > 0)
-    disp('System is Stable');
-else
-    disp('System is Unstable');
-end
-Determine wheter the system is stable using Routh–Hurwitz
+SELECT * FROM Employees e
+WHERE salary > (
+    SELECT AVG(salary) FROM Employees WHERE department = e.department
+);
+#
 
-a = [2 4 3 2 1 2];
+16. Find duplicate last names in Employees.
 
-R = zeros(6,3);
+SELECT last_name, COUNT(*) AS cnt
+FROM Employees
+GROUP BY last_name
+HAVING COUNT(*) > 1;
+#
 
-R(1,:) = [a(1) a(3) a(5)];
-R(2,:) = [a(2) a(4) a(6)];
+17. Get all cities from Customers and Suppliers (no duplicates), sorted alphabetically.
 
-R(3,1) = (R(2,1)*R(1,2)-R(1,1)*R(2,2))/R(2,1);
-R(3,2) = (R(2,1)*R(1,3)-R(1,1)*R(2,3))/R(2,1);
+SELECT city FROM Customers
+UNION
+SELECT city FROM Suppliers
+ORDER BY city;
+#
 
-R(4,1) = (R(3,1)*R(2,2)-R(2,1)*R(3,2))/R(3,1);
-R(4,2) = (R(3,1)*R(2,3)-R(2,1)*0)/R(3,1);
+18. Show the average salary per department only for employees hired after 2020, and only departments with an average above 3000.
 
-R(5,1) = (R(4,1)*R(3,2)-R(3,1)*R(4,2))/R(4,1);
-R(6,1) = R(4,2);
+SELECT department, AVG(salary) AS avg_salary
+FROM Employees
+WHERE hire_date > '2020-12-31'
+GROUP BY department
+HAVING AVG(salary) > 3000;
+#
 
-disp(R);
+19. Create Orders with a foreign key that automatically deletes orders when the customer is deleted.
 
-if sum(diff(sign(R(:,1))) ~= 0) == 0
-    disp('System is Stable');
-else
-    disp('System is Unstable');
-end
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE
+);
+#
 
-Given the characteristic polynomial of a system:
+20. Create a table OrderItems where the primary key is a combination of order_id and prod_id.
 
-s = tf('s');
-p = s^5 + 14*s^4 + 2*s^3 + 5*s^2 + s + 5;
+CREATE TABLE OrderItems (
+    order_id INT,
+    prod_id INT,
+    quantity INT,
+    PRIMARY KEY (order_id, prod_id)
+);
+#
 
-w = 0:0.01:100;
-v = polyval([1 14 2 5 1 5],1i*w);
+21. Can you use ORDER BY inside a subquery?
 
-plot(real(v),imag(v));
-grid on;
-xlabel('Real');
-ylabel('Imaginary');
-title('Mikhailov Plot');
+Yes, you can use ORDER BY inside a subquery.
+It is usually used together with TOP, LIMIT, or OFFSET.
+#
 
-Determine whether the system is stable using the  Nyquist plote .
-num = [1 1];
-den = [3 3 3 1];
+22. What is the result of SELECT 1 UNION SELECT 1 UNION ALL SELECT 1?
 
-W = tf(num,den);
+The result contains two rows with the value 1.
+UNION removes duplicates, but UNION ALL keeps them.
+#
 
-nyquist(W);
-grid on;
-title('Nyquist Plot');
+23. What does SELECT DISTINCT do and how is it different from GROUP BY?
 
-pole(W)
+DISTINCT removes duplicate rows from the result.
+GROUP BY puts rows with the same values into groups.
+#
 
-Determine whether the system is stable using the Routh–Hurwitz stability criterion.
-num = [10 1];
-den = [8 6 3 1];
+24. Why does WHERE column = NULL return nothing, and how do you fix it?
 
-W = tf(num,den);
+NULL cannot be compared using the = operator.
+We use IS NULL to find NULL values.
+#
 
-p = pole(W);
+25. What do ANY and ALL mean with subqueries?
 
-if all(real(p) < 0)
-    disp('System is Stable');
-else
-    disp('System is Unstable');
-end
------------------------------------------------------------------------------------------------
-NEZERI
-1. Basics of Digital Systems
-Digital systems are systems that receive, process, and send information in digital form. In these systems, information is mainly shown using the binary number system, which means 0s and 1s. Computers, phones, and calculators are digital systems. Digital systems are fast and accurate.
+ANY means the condition must be true for at least one value.
+ALL means the condition must be true for every value.
+#
 
-2. Digital systems based on computer engineering complexes
-A “complex” means hardware and software working together.
-•	Hardware: processor (CPU), memory, input and output devices.
-•	Software: programs that tell the hardware what to do.
-•	Examples: a computer, a microcontroller, a control system in a factory.
+26. How do you delete duplicate rows while keeping one copy?
 
-3. Digital system and its fundamental principles of operation
-A digital system works in three main steps: Input → Processing → Output.
-Input: Receives data
-Processing: Uses logic gates (AND, OR, NOT)
-Output: Shows the result
+We delete the duplicate rows from the table.
+We keep one row, usually the one with the smallest ID.
+#
 
-4. Signal reconstruction from discrete samples
-A discrete signal is a group of points. Reconstruction means making a smooth, continuous signal from these points.
-Nyquist rule:  
-If it is lower, we get aliasing
+27. What is INSERT ... SELECT?
 
-5. Data conversion and quantization
-Data conversion changes a signal from analog to digital, or from digital to analog.
-Quantization means dividing a continuous analog signal into fixed digital steps or levels.
+It copies data from one table to another table.
+It uses SELECT to get the data and INSERT to add it.
+#
 
+28. How do you update a column using a value from a subquery?
 
-6. Sample-and-hold circuits
-A sample-and-hold circuit is an electronic circuit. This circuit takes the signal value at one moment (sample) and keeps it constant for a short time (hold).
+We use a subquery inside the UPDATE statement.
+The subquery provides the new value for the column.
+#
 
-7. Digital-to-analog conversion (DAC)
-Digital-to-analog conversion changes digital data into an analog signal. Digital data uses 0 and 1. For example, a computer stores music in digital form. A speaker changes this digital information into sound. This process is called DAC.
+29. How does ORDER BY work with multiple columns and can it use aliases?
 
-8. Analog-to-Digital Conversion
-Analog-to-digital conversion changes an analog signal into digital data. First, the system takes samples from the signal. Then, it changes these samples into digital numbers.
+It sorts by the first column and then by the second.
+Yes, we can also use column aliases.
+#
 
-9. Discretization of Continuous-Time Processes
-A continuous-time signal changes all the time. Discretization means taking samples from this signal at different times   
- 
+30. What is the difference between COUNT(*), COUNT(column), and COUNT(DISTINCT column)?
 
-10. Reconstruction of continuous functions
-This is the opposite of discretization. We make a continuous function from the samples.
-•	Zero-order hold: keeps each value constant (looks like steps).
-•	First-order hold: connects the points with straight lines.
+COUNT(*) counts all rows, while COUNT(column) ignores NULL values.
+COUNT(DISTINCT column) counts only unique non-NULL values.
+#
 
+31. What is the precedence of NOT, AND, and OR? Evaluate A OR B AND C.
 
+NOT has the highest priority, then AND, and finally OR.
+A OR B AND C means A OR (B AND C).
+#
 
+32. Why can NOT IN return no rows when the subquery contains NULL?
 
+NULL makes the comparison UNKNOWN.
+Because of this, NOT IN may return no rows.
+#
 
-11. Fourier Transform
-The Fourier transform shows which frequencies are inside a signal. It changes a signal from the time domain to the frequency domain. Example: a sound has many tones. The Fourier transform shows each tone.
- 
+33. Compare DELETE, TRUNCATE, and DROP.
 
-12. Modified Z-transform	
-The Modified Z-transform is a method used to study digital systems. It helps us understand how a system works with digital signals and delays.
+DELETE removes selected rows, while TRUNCATE removes all rows.
+DROP removes the entire table.
+#
 
-13. Analog Model of the Extrapolator
-An extrapolator is a system that predicts future signal values. The analog model works with continuous signals. It is used in control and communication systems. It helps predict signal changes.
+34. What is the logical order of execution of a SQL query?
 
-14. Stable and unstable systems
-A stable system works correctly and gives limited output for limited input. An unstable system can produce a very large output. It may not work correctly.
-Example: H(z) = 1/(z − 0.5) is stable. H(z) = 1/(z − 2) is unstable.
+First, SQL uses FROM and WHERE to get and filter data.
+Then it uses GROUP BY, HAVING, SELECT, and ORDER BY.
+#
 
-15. Design of Digital Filters and BIBO
-A digital filter changes a signal. It removes noise or keeps some frequencies. Types: low-pass, high-pass, band-pass, band-stop.
-•	FIR filter: no feedback. Always stable. Can have linear phase.
-•	IIR filter: uses feedback. Needs fewer coefficients, but can be unstable.
-BIBO means Bounded Input, Bounded Output. If the input is limited, the output must also be limited.
-16. Stability of Discrete-Time Systems and Routh-Hurwitz Criterion
-Stability means that the system gives a limited output. The Routh-Hurwitz criterion is a mathematical method for checking stability.
+35. Why can't you use aggregate functions in WHERE? What should you use instead?
 
-17. Sampling and Quantization – Convolution
-Sampling takes values from a signal at different times. Quantization changes these values into fixed levels. Convolution is a mathematical operation between two signals. It helps us understand the output of a system.
+WHERE works before the groups are created.
+We use HAVING to filter groups with aggregate functions.
+#
 
-18. Nyquist Criterion for Stability
-The Nyquist criterion checks the stability of a closed-loop system using the open-loop frequency response G(jω)H(jω).
-•	Formula: Z = N + P 
-o	Z = number of unstable closed-loop poles
-o	P = number of unstable open-loop poles
-o	N = number of clockwise turns around −1
-•	The system is stable if Z = 0.
+36. Where do you put ORDER BY when using UNION?
 
+ORDER BY is written at the end of the UNION query.
+It sorts the final result.
+#
 
-19. Digital Controller – D/A Conversion
-A digital controller controls a system using digital data. It receives information, processes it and sends a control signal. D/A conversion changes digital data into an analog signal. For example, a computer can control a motor using a digital controller and a D/A converter.
+37. Table A has values (1, 2, 2) and table B has (2, 3). What do UNION and UNION ALL return?
 
-20. Realization of Digital Systems: IIR Direct, Parallel and Cascade
-Realization means choosing the structure (adders, multipliers, delays) to build the transfer function H(z) = B(z)/A(z).
-Form	           Advantage	                      Disadvantage
-Direct	               Simple	             Sensitive for high order
-Cascade	     Good accuracy, easy design	             Order of parts matters
-Parallel	      Good accuracy, fast	             Needs partial fractions
+UNION returns (1, 2, 3) without duplicates.
+UNION ALL returns (1, 2, 2, 2, 3) with duplicates.
+#
 
+38. What conditions must two SELECT queries meet to be combined with UNION?
 
+Both SELECT queries must have the same number of columns.
+Their data types must also be compatible.
+#
 
+39. What happens when you insert a child row whose foreign key value does not exist in the parent table?
 
+The database does not allow this insert.
+It gives a foreign key error.
+#
 
-21. Transfer Functions
-A transfer function describes how a system works. It shows the relationship between input and output. 
-•	Continuous: H(s) = Y(s) / X(s)
-•	Discrete: H(z) = Y(z) / X(z)
+40. What is the difference between a primary key and a unique key?
 
+A Primary Key does not allow NULL and must be unique.
+A Unique Key also keeps values unique, but can allow NULL.
+#
 
-22. Modulation and Demodulation
-Modulation is the process of changing a signal for sending information. It helps send information over long distances. Demodulation is the process of getting the original information back. These processes are used in radio, television and mobile phones.
+41. Which aggregate function counts the number of rows?
 
+COUNT() is used to count rows in a table.
+It is an aggregate function.
+#
 
-23. Coefficient Quantization Effects in Digital Filters
-Coefficient quantization means changing filter numbers into fixed digital values. This happens because computers have limited accuracy. It can change the filter performance. 
+42. What is a subquery?
 
-24. Digital Signal Processing System
-A Digital Signal Processing system is a system that works with digital signals. It receives, processes and changes information. It can remove noise and improve signal quality. Computers and digital audio devices use this system. It is used in communication, music and image processing.
+A subquery is a query inside another query.
+It is used to get data for the main query.
+#
 
+43. What is the WHERE clause used for?
 
-25. Quadrature Modulation – Deviation
-Quadrature modulation uses two signals. These signals are called I and Q. They have a 90-degree phase difference. This method can send more information.
-Deviation means a change in signal frequency or phase from its normal value.
+WHERE is used to filter rows in a table.
+It works before GROUP BY.
+#
 
+44. What is the HAVING clause used for?
 
-26. Spectral Characteristics
-Spectral characteristics show the frequency information of a signal. They help us understand the signal's frequency parts. A signal can have different frequencies.
-•	Amplitude spectrum: size of each frequency.
-•	Phase spectrum: phase of each frequency.
-•	Bandwidth: the width of the used frequency range.
+HAVING is used to filter groups.
+It works after GROUP BY.
+#
 
-22. Modulation and Demodulation
-Modulation is the process of changing a signal for sending information. It helps send information over long distances. Demodulation is the process of getting the original information back. These processes are used in radio, television and mobile phones.
+45. What is the default sort order of ORDER BY?
 
+The default order is ascending (ASC).
+It sorts values from smallest to largest.
+#
 
-28. Discrete-Time Systems
-A discrete-time system works with sequences x(n), not continuous signals. It changes an input sequence into an output sequence.
+46. What does GROUP BY do?
 
+GROUP BY puts rows with the same values into groups.
+It is often used with COUNT, SUM, and AVG.
+#
 
-29. Design of IIR Filter Using Bilinear Z-Transform
-First, we choose an analog filter. Then, we find its transfer function. We use the bilinear transform formula to change the analog filter into a digital filter. We replace s with z. Finally, we get a digital filter.
+47. Is TRUNCATE a DDL or DML command?
 
+TRUNCATE is a DDL command.
+It removes all rows from a table.
+#
 
-30. FIR and IIR Filters
-FIR and IIR are two types of digital filters. FIR means Finite Impulse Response. It uses only previous input values. IIR means Infinite Impulse Response. It uses previous input and output values. FIR filters are always stable in normal conditions, but IIR filters can be stable or unstable. Both are used to remove noise and improve signals.
+48. Name one difference between DELETE and TRUNCATE.
 
+DELETE can remove selected rows from a table.
+TRUNCATE removes all rows from the table.
+#
 
+49. What does TRUNCATE do?
 
-31. Recursive Smoother
-A smoother reduces noise and makes a signal more smooth. A recursive smoother uses the old output to make the new output (feedback).
-•	Simple formula (exponential smoother): y(n) = α·x(n) + (1 − α)·y(n−1), where 0 < α < 1.
-It is used in digital signal processing.
+TRUNCATE removes all rows from a table.
+The table structure stays the same.
+#
 
-32. Group Delay, Linear Phase, All-pass, Minimum Phase
-Group delay shows how much a signal is delayed by a filter. Linear phase means that all frequencies have the same time delay. An all-pass filter changes the phase but keeps the signal size the same. A minimum-phase filter has a small delay. These filters are used in digital signal processing.
+50. What does DELETE do?
 
+DELETE removes rows from a table.
+We can use WHERE to choose which rows to remove.
+#
 
-33. Analog-to-Digital Conversion
-Analog-to-digital conversion changes an analog signal into digital data. First, the system takes samples from the signal. Then, it changes these samples into digital numbers. For example, a microphone changes sound into digital data. This process is called ADC.
-•	Steps: Anti-aliasing filter → Sampling → Hold → Quantization → Encoding.
+51. What happens if you run UPDATE without a WHERE clause?
 
+UPDATE changes all rows in the table.
+It does not select any specific rows.
+#
 
-34. A Fundamental Definition of System Stability
-System stability means that a system works correctly. A stable system gives a limited output when it receives a limited input. An unstable system can give a very large output. 
-Tests: Routh-Hurwitz, Jury test, Nyquist.
+52. What does UNION ALL do?
 
-35. Sampling and Quantization
-Sampling takes values from a signal at different times. Quantization changes these values into fixed levels. These processes change an analog signal into digital data. They are important in digital systems. They are used in sound and image processing.
+UNION ALL combines results from multiple SELECT queries.
+It keeps all duplicate rows.
+#
 
-36. Aliasing and Anti-Aliasing in Digital Systems
-Aliasing happens when a signal is sampled too slowly. It happens when fs < 2·fmax. It can change the real information of a signal. Anti-aliasing helps prevent this problem. It uses a special filter(low-pass filter ) before sampling. This makes the digital signal more accurate.
+53. What does UNION do?
 
+UNION combines results from multiple SELECT queries.
+It removes duplicate rows from the result.
+#
 
-37. Nyquist–Shannon Sampling Theorem
-The Nyquist-Shannon theorem explains how to sample a signal correctly. The sampling frequency must be at least two times higher than the maximum signal frequency. This helps us get the original signal back. It also helps prevent aliasing.
+54. What does the SELECT statement do?
 
+SELECT is used to get data from a database.
+It can show all columns or selected columns.
+#
 
-38. Correlation Analysis
-Correlation analysis shows the relationship between two signals. It helps us understand how similar they are. If two signals change in the same direction, they have positive correlation. If they change in opposite directions, they have negative correlation. It is used in signal processing and data analysis.
+55. Can a foreign key column contain duplicate values?
 
+Yes, a foreign key can contain duplicate values.
+Different rows can reference the same parent row.
+#
 
-39. Equalization Filters
-An equalization filter changes the frequency parts of a signal. It can increase or decrease some frequencies. It helps improve sound quality.
-Types: 
-•	Linear (FIR) equalizer, Adaptive equalizer, Decision feedback equalizer (DFE)
+56. Can a foreign key contain NULL values?
 
-40. Frequency Response and Transfer Function
-Frequency response shows how a system works at different frequencies. It has two parts: Magnitude , Phase.
- A transfer function shows the relationship between input and output  H(z) = Y(z)/X(z).  
+Yes, a foreign key can contain NULL values.
+But it is not allowed if the column is NOT NULL.
+#
 
-41. Quantization Error
-Quantization error is the difference between the real signal value and the digital value. It happens during quantization. A computer cannot save every signal value exactly. This creates a small error. We try to make this error smaller.
+57. What is a foreign key?
 
+A foreign key is a column that connects two tables.
+It refers to a key in another table.
+#
 
-42. All-Pass Filters
-An all-pass filter is a digital filter. It allows all frequencies to pass. It changes the phase of a signal but keeps its size the same. It is used in audio and digital signal processing. It helps control signal delay.
+58. How many primary keys can a table have?
 
-43. The Fourier Transform and Digital Fourier Transform
-The Fourier Transform changes a signal from the time domain to the frequency domain. It helps us see the frequencies in a signal. The Digital Fourier Transform works with digital signals. It is used to study sound, music and images. It is important in signal processing.
+A table can have only one primary key.
+It can contain one or more columns.
+#
 
+59. Can a primary key contain NULL values?
 
-44. First-Order Notch Filter
-A first-order notch filter reduces a special frequency in a signal. It allows other frequencies to pass. It helps remove unwanted noise. For example, it can reduce noise in audio signals. It is used in electronic systems.
+No, a primary key cannot contain NULL values.
+Every row must have a unique primary key.
+#
 
-45. Second-Order Unity Gain Resonator
-A second-order unity gain resonator is a type of digital filter. It works with a special frequency. Unity gain means that the signal size stays the same at a selected frequency. It is used in audio and signal processing. It helps control and study frequencies.
+60. What is a primary key?
 
-46. State Space
-State Space is a mathematical method for describing a system. It uses input, output and state variables. It helps us understand how a system works over time. Engineers use it to study and control systems. It is important in control engineering.
-
-47. Transformation of Random Signals in Discrete-Time Systems
-Random signals are signals that change in an unpredictable way. A discrete-time system takes samples of these signals. Then, it processes the samples. The output signal may also be random. This process is used in communication and digital signal processing.
-
-48. High-Pass Filters
-A high-pass filter allows high frequencies to pass. It reduces low frequencies. It can remove low-frequency noise from a signal. It is used in audio and communication systems. It helps improve signal quality.
-
-49. Low-Pass Filters
-A low-pass filter allows low frequencies to pass. It reduces high frequencies. It can remove unwanted high-frequency noise. It is used in audio and digital systems. It helps make signals smoother.
-
-50. Band-Pass Filters
-A band-pass filter allows a selected range of frequencies to pass. It reduces very low and very high frequencies. It is used in radio and communication systems. It helps select useful signals. It is important in digital signal processing.
-
-
-51. Relationship Between Sampling Frequency and Maximum Frequency
-Sampling frequency shows how many samples we take in one second. The maximum frequency is the highest frequency in a signal. According to the Nyquist theorem, the sampling frequency must be at least two times higher than the maximum frequency. This helps us get the original signal back.
-
-
-52. Nyquist Frequency, Aliasing and Signal Reconstruction
-Nyquist frequency is half of the sampling frequency. Aliasing happens when we sample a signal too slowly. It changes the real frequency information. Signal reconstruction means creating the original signal from digital samples. We need a correct sampling frequency to avoid aliasing.
-53. Sampling Frequency Calculation
- 
-If we sample the signal at 12 kHz, the sampling frequency is too low. Aliasing happens. We cannot get the original signal correctly.
-
-54. Fundamental Principles of Digital System Analysis
-Digital system analysis helps us understand how a digital system works. It studies input, output and system behavior. It also studies stability and frequency response. Engineers use mathematical methods to analyze systems. This helps them design better digital systems.
-
-
-55. Role of the Z-Transform in Analyzing Discrete-Time Systems
-The Z-transform is a mathematical method. It changes a discrete-time signal into the Z-domain. It helps us study digital systems. We can find the transfer function, poles and zeros. It also helps us check system stability.
-
-56. Linearity, Time Invariance, Causality and Stability
-Linearity means that a system follows the rules of addition and multiplication. Time invariance means that the system works in the same way at different times. Causality means that the output depends only on present and past inputs. Stability means that a limited input gives a limited output. These properties help us understand digital systems.
-57. Poles and Zeros in Digital Systems
-Poles and zeros are important parts of a transfer function. Zeros are points where the transfer function becomes zero. Poles are points where the transfer function becomes very large. They affect the system's behavior and frequency response. They also help us check system stability.
-
-
-58. Transfer Function of a Discrete-Time Digital System
- 
-
-
-59. Transfer Function from a Difference Equation Using Z-Transform
- 
-
-
-10. Relationship Between Transfer Function, Poles, Zeros, Stability and Frequency Response
-The transfer function shows how a digital system works. Poles and zeros are parts of this function. They affect the system's stability and frequency response. For a causal digital system, all poles must be inside the unit circle for stability. Frequency response shows how the system works at different frequencies. These concepts help engineers design digital systems.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+A primary key is a column that identifies each row.
+Its values must be unique and cannot be NULL.
+#
